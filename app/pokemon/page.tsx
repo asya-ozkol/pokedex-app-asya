@@ -1,32 +1,48 @@
-import Link from 'next/link';
+'use client';
 
-export default function PokemonPage() {
-  
-  const pokemonList = [
-    { id: 1, name: 'Bulbasaur' },
-    { id: 4, name: 'Charmander' },
-    { id: 7, name: 'Squirtle' }
-  ];
+import { useState } from 'react';
+import Link from 'next/link';
+import { pokemons } from '../data';
+
+export default function PokedexPage() {
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const filteredPokemons = pokemons.filter((pokemon) =>
+    pokemon.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
-    <div className="content" style={{ padding: '20px' }}>
-      <h1>Masaüstü Pokedex Projem</h1>
-      <p>İlk Pokemon listemi başarıyla oluşturdum!</p>
-      
-      <div style={{ display: 'flex', gap: '20px', marginTop: '20px' }}>
-        {pokemonList.map((poke) => (
-          <div key={poke.id} style={{ border: '1px solid #ccc', padding: '15px', borderRadius: '8px', textAlign: 'center' }}>
-            {}
-            <img 
-              src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${poke.id}.png`} 
-              alt={poke.name} 
+    <div className="pokedex-page">
+      <h1>Pokedex</h1>
+
+      <input
+        className="pokemon-search"
+        type="text"
+        placeholder="Search Pokémon..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+      />
+
+      {filteredPokemons.length === 0 && <p>We couldn't find any Pokémon.</p>}
+
+      <div className="pokemon-grid">
+        {filteredPokemons.map((pokemon) => (
+          <Link
+            key={pokemon.id}
+            href={`/pokemon/${pokemon.id}`}
+            className="pokemon-card"
+            style={{ backgroundColor: pokemon.color }}
+          >
+            <div className="pokemon-card-top">
+              <h2>{pokemon.name.toLowerCase()}</h2>
+            </div>
+
+            <img
+              src={pokemon.image}
+              alt={pokemon.name}
+              className="pokemon-card-image"
             />
-            <h3>{poke.name}</h3>
-            {}
-            <Link href={`/pokemon/${poke.id}`} style={{ color: '#0070f3', textDecoration: 'underline' }}>
-              Detayları Gör
-            </Link>
-          </div>
+          </Link>
         ))}
       </div>
     </div>

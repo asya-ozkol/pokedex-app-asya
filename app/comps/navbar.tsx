@@ -5,12 +5,12 @@ const Navbar = () => {
   return (
     <nav>
       <div className="logo">
-        <h1>Ninja List</h1>
+        <h1>PokeWorld🧿</h1>
       </div>
       {}
       <Link href="/">Home</Link>
       <Link href="/about1">About</Link>
-      <Link href="/ninjas">Ninja Listing</Link>
+      <Link href="/ninjas">Poke Listing</Link>
     </nav>
   );
 };
